@@ -1,4 +1,5 @@
-import settings
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI,HTTPException, Query, Response
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -6,7 +7,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from models import Student
 from bson import ObjectId
 
-client = AsyncIOMotorClient(settings.mongodb_uri)
+load_dotenv() 
+client = AsyncIOMotorClient(os.getenv("mongodb_uri"))
 db = client['cosmo'] #connect db
 collection = db["student"] #conect to collection
 app = FastAPI()
