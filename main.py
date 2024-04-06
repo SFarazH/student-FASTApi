@@ -71,25 +71,29 @@ async def update_student(
 ):
     try:
         student_id = ObjectId(student_id)
-        if updated_data is None:
-            updated_data = {}
-        updated_address = updated_data.pop('address', None) #remove the address object , if found
-        
-        # removed the address object and handled it differently because 
-        # if only city or country field is entered to be updated, it will overwrite the address field in db
-        
-        if updated_data:
-            await collection.update_one({"_id": student_id}, {"$set": updated_data})
-
-        if updated_address:
-            address_updates = {}
-            for key, value in updated_address.items():
-                if value is not None:
-                    address_updates[f"address.{key}"] = value #updating only those fields of address object which have been entered
+        result = await collection.find_one({"_id": ObjectId(student_id)})
+        if result:
+            if updated_data is None:
+                updated_data = {}
+            updated_address = updated_data.pop('address', None) #remove the address object , if found
             
-            if address_updates:
-                await collection.update_one({"_id": student_id}, {"$set": address_updates})
-        return Response(status_code=204)
+            # removed the address object and handled it differently because 
+            # if only city or country field is entered to be updated, it will overwrite the address field in db
+            
+            if updated_data:
+                await collection.update_one({"_id": student_id}, {"$set": updated_data})
+
+            if updated_address:
+                address_updates = {}
+                for key, value in updated_address.items():
+                    if value is not None:
+                        address_updates[f"address.{key}"] = value #updating only those fields of address object which have been entered
+                
+                if address_updates:
+                    await collection.update_one({"_id": student_id}, {"$set": address_updates})
+            return Response(status_code=204)
+        else:
+            raise HTTPException(status_code=404, detail="Student not found") 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
