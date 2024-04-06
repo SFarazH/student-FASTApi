@@ -6,6 +6,8 @@ Student data API created using FASTApi
 
 This API provides endpoints to manage student records. It allows creating, reading, updating, and deleting student information.
 
+### Link : https://student-fastapi.onrender.com
+
 ## Endpoints
 
 - **Create Student**: `POST /student`
@@ -46,8 +48,3 @@ This API provides endpoints to manage student records. It allows creating, readi
             "country": "string"
         }
     }
-
-## Usage
-
-To use this API, send HTTP requests to the appropriate endpoints as described above. Make sure to handle validation errors as described in the responses section of each endpoint.
-
