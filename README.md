@@ -37,7 +37,15 @@ This API provides endpoints to manage student records. It allows creating, readi
 ## Schemas
 
 - **Student**: Represents student information including name, age, and address.
-- **Address**: Represents the address of a student including city and country.
+    ```json
+    {
+        "name": "string",
+        "age": 0,
+        "address": {
+            "city": "string",
+            "country": "string"
+        }
+    }
 
 ## Usage
 
